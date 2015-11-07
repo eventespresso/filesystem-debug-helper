@@ -1,10 +1,11 @@
 <?php
 /*
   Plugin Name:		Filesystem Debug Helper
-  Plugin URI:  		
+  Plugin URI:  		https://github.com/eventespresso/filesystem-debug-helper
   Description: 		Helpers for debugging plugins and themes that use the WP Filesystem API. Use this plugin to simulate requiring credentials before writing
   to files on the filesystem. Equivalent to using FTP or SSH to access the filesystem, just convenient if you don't 
-  want to bother setting up FTP or SSH on your server. To use: use the username "username" and the password "password"
+  want to bother setting up FTP or SSH on your server. To use: use the username "username" and the password "password". You can
+ * also put these values in wp-config.php in the constants "FTP_USER" and "FTP_PASS".
 
   Version: 		0.1.0
   Author: 		Event Espresso (Mike Nelson)
