@@ -39,7 +39,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function get_contents($file) {
 		if( $this->authorized() ) {
-			return parent::get_contents( $file );
+			return parent::get_contents( $this->_simulate_remote_filepath_is_different_from_local( $file ) );
 		} else{
 			return false;
 		}
@@ -55,7 +55,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function get_contents_array($file) {
 		if( $this->authorized() ) {
-			return parent::get_contents_array( $file );
+			return parent::get_contents_array( $this->_simulate_remote_filepath_is_different_from_local( $file ) );
 		} else{
 			return false;
 		}
@@ -74,7 +74,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function put_contents( $file, $contents, $mode = false ) {
 		if( $this->authorized() ) {
-			return parent::put_contents( $file, $contents, $mode);
+			return parent::put_contents( $this->_simulate_remote_filepath_is_different_from_local( $file ), $contents, $mode);
 		} else{
 			return false;
 		}
@@ -105,7 +105,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function chdir($dir) {
 		if( $this->authorized() ) {
-			return parent::chdir( $dir );
+			return parent::chdir( $this->_simulate_remote_filepath_is_different_from_local( $dir ) );
 		} else{
 			return false;
 		}
@@ -123,7 +123,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function chgrp($file, $group, $recursive = false) {
 		if( $this->authorized() ) {
-			return parent::chgrp($file, $group, $recursive );
+			return parent::chgrp( $this->_simulate_remote_filepath_is_different_from_local( $file ), $group, $recursive );
 		} else{
 			return false;
 		}
@@ -142,7 +142,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function chmod($file, $mode = false, $recursive = false) {
 		if( $this->authorized() ) {
-			return parent::chmod($file, $mode, $recursive );
+			return parent::chmod( $this->_simulate_remote_filepath_is_different_from_local( $file ), $mode, $recursive );
 		} else{
 			return false;
 		}
@@ -161,7 +161,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function chown($file, $owner, $recursive = false) {
 		if( $this->authorized() ) {
-			return parent:: chown($file, $owner, $recursive );
+			return parent:: chown( $this->_simulate_remote_filepath_is_different_from_local( $file ), $owner, $recursive );
 		} else{
 			return false;
 		}
@@ -177,7 +177,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function owner($file) {
 		if( $this->authorized() ) {
-			return parent::owner( $file );
+			return parent::owner( $this->_simulate_remote_filepath_is_different_from_local( $file ) );
 		} else{
 			return false;
 		}
@@ -195,7 +195,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function getchmod($file) {
 		if( $this->authorized() ) {
-			return parent::getchmod( $file );
+			return parent::getchmod( $this->_simulate_remote_filepath_is_different_from_local( $file ) );
 		} else{
 			return false;
 		}
@@ -209,7 +209,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function group($file) {
 		if( $this->authorized() ) {
-			return parent::group( $file );
+			return parent::group( $this->_simulate_remote_filepath_is_different_from_local( $file ) );
 		} else{
 			return false;
 		}
@@ -226,7 +226,10 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function copy($source, $destination, $overwrite = false, $mode = false) {
 		if( $this->authorized() ) {
-			return parent::copy($source, $destination, $overwrite, $mode );
+			return parent::copy( $this->_simulate_remote_filepath_is_different_from_local( $source ), 
+					$this->_simulate_remote_filepath_is_different_from_local( $destination ), 
+					$overwrite, 
+					$mode );
 		} else{
 			return false;
 		}
@@ -242,7 +245,10 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function move($source, $destination, $overwrite = false) {
 		if( $this->authorized() ) {
-			return parent::move($source, $destination, $overwrite );
+			return parent::move(
+					$this->_simulate_remote_filepath_is_different_from_local( $source), 
+					$this->_simulate_remote_filepath_is_different_from_local( $destination ), 
+					$overwrite );
 		} else{
 			return false;
 		}
@@ -258,7 +264,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function delete($file, $recursive = false, $type = false) {
 		if( $this->authorized() ) {
-			return parent::delete($file, $recursive, $type );
+			return parent::delete( $this->_simulate_remote_filepath_is_different_from_local( $file ), $recursive, $type );
 		} else{
 			return false;
 		}
@@ -271,7 +277,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function exists($file) {
 		if( $this->authorized() ) {
-			return parent::exists($file);
+			return parent::exists( $this->_simulate_remote_filepath_is_different_from_local( $file ));
 		} else{
 			return false;
 		}
@@ -284,7 +290,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function is_file($file) {
 		if( $this->authorized() ) {
-			return parent::is_file($file);
+			return parent::is_file( $this->_simulate_remote_filepath_is_different_from_local( $file ));
 		} else{
 			return false;
 		}
@@ -297,7 +303,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function is_dir($path) {
 		if( $this->authorized() ) {
-			return parent::is_dir($path);
+			return parent::is_dir($this->_simulate_remote_filepath_is_different_from_local( $path ));
 		} else{
 			return false;
 		}
@@ -311,7 +317,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function is_readable($file) {
 		if( $this->authorized() ) {
-			return parent::is_readable($file);
+			return parent::is_readable( $this->_simulate_remote_filepath_is_different_from_local( $file ) );
 		} else{
 			return false;
 		}
@@ -325,7 +331,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function is_writable($file) {
 		if( $this->authorized() ) {
-			return parent::is_writable($file);
+			return parent::is_writable( $this->_simulate_remote_filepath_is_different_from_local( $file ));
 		} else{
 			return false;
 		}
@@ -339,7 +345,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function atime($file) {
 		if( $this->authorized() ) {
-			return parent::atime($file);
+			return parent::atime( $this->_simulate_remote_filepath_is_different_from_local( $file ) );
 		} else{
 			return false;
 		}
@@ -353,7 +359,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function mtime($file) {
 		if( $this->authorized() ) {
-			return parent::mtime($file);
+			return parent::mtime( $this->_simulate_remote_filepath_is_different_from_local( $file ) );
 		} else{
 			return false;
 		}
@@ -367,7 +373,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function size($file) {
 		if( $this->authorized() ) {
-			return parent::size($file);
+			return parent::size( $this->_simulate_remote_filepath_is_different_from_local( $file ) );
 		} else{
 			return false;
 		}
@@ -383,7 +389,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function touch($file, $time = 0, $atime = 0) {
 		if( $this->authorized() ) {
-			return parent::touch($file, $time, $atime );
+			return parent::touch( $this->_simulate_remote_filepath_is_different_from_local( $file ), $time, $atime );
 		} else{
 			return false;
 		}
@@ -400,7 +406,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
 		if( $this->authorized() ) {
-			return parent:: mkdir($path, $chmod, $chown, $chgrp );
+			return parent:: mkdir( $this->_simulate_remote_filepath_is_different_from_local( $path ), $chmod, $chown, $chgrp );
 		} else{
 			return false;
 		}
@@ -415,7 +421,7 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function rmdir($path, $recursive = false) {
 		if( $this->authorized() ) {
-			return parent::rmdir($path, $recursive );
+			return parent::rmdir( $this->_simulate_remote_filepath_is_different_from_local( $path ), $recursive );
 		} else {
 			return false;
 		}
@@ -431,10 +437,49 @@ class WP_Filesystem_Debug extends WP_Filesystem_Direct {
 	 */
 	public function dirlist($path, $include_hidden = true, $recursive = false) {
 		if( $this->authorized() ) {
-			return parent::dirlist($path, $include_hidden, $recursive );
+			return parent::dirlist( $this->_simulate_remote_filepath_is_different_from_local( $path ), $include_hidden, $recursive );
 		} else{
 			return false;
 		}
-	}	
+	}
+	
+	/**
+	 * Because the filepath on the server may be different for the PHP code than
+	 * for the filesystem method (ftp or ssh), we want to simulate that in this plugin.
+	 * Specifically, folks need to use $wp_filesystem->wp_content_dir() instead of WP_CONTENT_DIR,
+	 * because they aren't necessarily always going to be the same. 
+	 * $wp_filesystem->wp_content_dir() should be passed into $wp_filesystem methods,
+	 * whereas WP_CONTENT_DIR should be passed into php functions that access the filesystem.
+	 * SO if someone forgets that, let's have them instead read/write from "wp-content-IMPROPER-USAGE-OF-WP-FILESYSTEM"
+	 * @param string $should_be_remote_filepath
+	 */
+	protected function _simulate_remote_filepath_is_different_from_local( $should_be_remote_filepath ) {
+		if( strpos( $should_be_remote_filepath, WP_CONTENT_DIR . self::remote_filesystem_proof_using_properly ) === false ) {
+			//gotcha! you werent using $wp_filesystme->wp_content_dir()!
+			throw new Exception( 'The WP FIlesystem Debugger caught you doing something naughty. '
+					. 'You passed in WP_CONTENT_DIR as a filepath right? Specifically, you passed in ' . 
+					$should_be_remote_filepath
+					. 'You should use '
+					. '$wp_filesystem->wp_content_dir() because that is the path '
+					. 'according to the method being used to access the filesystem, '
+					. 'which might be different than the local path set by WP_CONTENT_DIR.');
+		} else {
+			//ok you're good. We'll let you know the correct filepath
+			return str_replace( WP_CONTENT_DIR . self::remote_filesystem_proof_using_properly, WP_CONTENT_DIR, $should_be_remote_filepath );
+		}
+	}
+	
+	/**
+	 * As explained on WP_Filesystem_Debug::_simulate_remote_filepath_is_different_from_local(),
+	 * this pretends the correct filepath to the wp-content directory has the string
+	 * "IMPROPER-USAGE-OF-WP-FILESYSTEM" on the wp-content folder name.
+	 * Anyone who doesn't use that won't have that string and will be FOUND OUT!
+	 * This will help detect if someone is forgetting to use this folder
+	 * @param type $folder
+	 */
+	public function find_folder( $folder ) {
+		return str_replace( WP_CONTENT_DIR, WP_CONTENT_DIR . self::remote_filesystem_proof_using_properly, $folder );
+	}
+	const remote_filesystem_proof_using_properly = 'PROPERLY-USING-OF-WP-FILESYSTEM';
 }
 
